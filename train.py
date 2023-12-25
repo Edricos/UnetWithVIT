@@ -80,7 +80,7 @@ def train(models, train_filenames):
     max_distance = 150
     min_distance = 3
     img_id = {}
-    base_dir = r'C:\Users\edric\PycharmProjects\newG2D\data\real'
+    base_dir = '/home/edric/PycharmProjects/UnetWithVIT/data/real'
 
     gta_pass = ''
     model_optimizer_Encoder = optim.Adam(models["Encoder"].parameters(), lr=1e-4, betas=(0.5, 0.999))
@@ -110,7 +110,7 @@ def train(models, train_filenames):
             model_optimizer_Encoder.step()
             model_optimizer_Decoder.step()
             # tqdm.tqdm.set_postfix('epoch:{0}  [{1}/{2}]  loss:{3}'.format(epoch, i + 1, len(train_filenames), loss))
-            print('epoch:{0}  [{1}/{2}]  loss:{3}'.format(epoch, i + 1, len(train_filenames), loss))
+            # print('epoch:{0}  [{1}/{2}]  loss:{3}'.format(epoch, i + 1, len(train_filenames), loss))
     return models
 
 
@@ -132,3 +132,6 @@ if __name__ == '__main__':
     model_dir = "models/"
     torch.save(model["Encoder"].state_dict(), os.path.join(model_dir, 'Encoder01.pth'))
     torch.save(model["Decoder"].state_dict(), os.path.join(model_dir, 'Decoder01.pth'))
+
+
+

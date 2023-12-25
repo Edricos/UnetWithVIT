@@ -75,7 +75,7 @@ def eval(models, train_filenames):
     max_distance = 150
     min_distance = 3
     img_id = {}
-    base_dir = r'C:\Users\edric\PycharmProjects\newG2D\data\real'
+    base_dir = '/home/edric/PycharmProjects/UnetWithVIT/data/real'
     Results = []
     for i in range(0, len(train_filenames)):
         print("{0}/{1}".format(i, len(train_filenames)))
@@ -100,7 +100,7 @@ def eval(models, train_filenames):
 
 
 if __name__ == '__main__':
-    data_fpath = './splits/'
+    data_fpath = 'splits/'
     # 数据加载
     fpath = os.path.join(data_fpath, "real_{}_night.txt")
     train_filenames = readlines(fpath.format("test"))
