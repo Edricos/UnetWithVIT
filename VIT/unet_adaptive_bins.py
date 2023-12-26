@@ -2,7 +2,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .miniViT import mViT
+from UnetWithVIT.VIT.miniViT import mViT
+
+import os
+
+os.environ['GITHUB_TOKEN'] = ''
 
 
 class UpSampleBN(nn.Module):
@@ -123,7 +127,8 @@ class UnetAdaptiveBins(nn.Module):
         basemodel_name = 'tf_efficientnet_b5_ap'
 
         print('Loading base model ()...'.format(basemodel_name), end='')
-        basemodel = torch.hub.load('rwightman/gen-efficientnet-pytorch', basemodel_name, pretrained=True)
+        basemodel = torch.hub.load(
+            'rwightman/gen-efficientnet-pytorch', basemodel_name, pretrained=True)
         print('Done.')
 
         # Remove last layer
@@ -139,7 +144,14 @@ class UnetAdaptiveBins(nn.Module):
 
 
 if __name__ == '__main__':
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(device)
     model = UnetAdaptiveBins.build(100)
-    x = torch.rand(2, 3, 480, 640)
+    model.to(device=device)
+
+    x = torch.rand(2, 3, 640, 480)
+    x = x.to(device)  # Move the input data to the GPU
+
     bins, pred = model(x)
     print(bins.shape, pred.shape)
+

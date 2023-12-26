@@ -5,7 +5,10 @@ import sys
 import cv2
 import numpy as np
 
-crop_size = 150
+# crop_size = 120
+# crop_size_w = 320
+crop_size = 152
+crop_size_w = 160
 
 
 def read_gated_image(base_dir, gta_pass, img_id, data_type, num_bits=10, scale_images=False,
@@ -20,7 +23,7 @@ def read_gated_image(base_dir, gta_pass, img_id, data_type, num_bits=10, scale_i
         img = cv2.imread(os.path.join(gate_dir, img_id + '.png'), cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH)
         if data_type == 'real':
             if gate_id<=2:
-                img = img[crop_size:(img.shape[0] - crop_size), crop_size:(img.shape[1] - crop_size)]
+                img = img[crop_size:(img.shape[0] - crop_size), crop_size_w:(img.shape[1] - crop_size_w)]
                 img = img.copy()
                 img[img > 2 ** 10 - 1] = normalizer
                 img = np.float32(img / normalizer)
@@ -45,8 +48,8 @@ def read_gt_image(base_dir, gta_pass, img_id, data_type, min_distance, max_dista
                   scaled_img_height=None, raw_values_only=False):
     if data_type == 'real':
         depth_lidar1 = np.load(os.path.join(base_dir, gta_pass, "depth_hdl64_gated_compressed", img_id + '.npz'))['arr_0']
-        depth_lidar1 = depth_lidar1[crop_size:(depth_lidar1.shape[0] - 58),
-                       crop_size: (depth_lidar1.shape[1] - 106)]
+        depth_lidar1 = depth_lidar1[crop_size:(depth_lidar1.shape[0] - crop_size),
+                       crop_size_w: (depth_lidar1.shape[1] - crop_size_w)]
         if raw_values_only:
             return depth_lidar1, None
 

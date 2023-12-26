@@ -83,19 +83,20 @@ def train(models, train_filenames):
     base_dir = '/home/edric/PycharmProjects/UnetWithVIT/data/real'
 
     gta_pass = ''
-    model_optimizer_Encoder = optim.Adam(models["Encoder"].parameters(), lr=1e-4, betas=(0.5, 0.999))
-    model_optimizer_Decoder = optim.Adam(models["Decoder"].parameters(), lr=1e-4, betas=(0.5, 0.999))
+    model_optimizer_Encoder = optim.Adam(models["Encoder"].parameters(), lr=1e-4)
+    model_optimizer_Decoder = optim.Adam(models["Decoder"].parameters(), lr=1e-4)
     for epoch in range(2):
         for i in tqdm.tqdm(range(0, len(train_filenames))):
             img_id[i] = train_filenames[i].split('\n')
             id = img_id[i][0]
             gate_dir = os.path.join(base_dir, 'gated{}_10bit', '{}.png'.format(id))
-            in_img = read_img(gate_dir)
-            in_img = torch.tensor(in_img).unsqueeze(0).to(device=device)
+            in_img = dsutil.read_gated_image(base_dir=base_dir, gta_pass=gta_pass,
+                                             img_id=img_id[i][0], data_type='real')
+            in_img = torch.tensor(in_img).to(device=device)
             in_img = in_img.permute(0, 3, 1, 2)
-            input, lidar_mask = dsutil.read_gt_image(base_dir=base_dir, gta_pass=gta_pass, img_id=img_id[i][0],
-                                                     data_type='real', min_distance=min_distance,
-                                                     max_distance=max_distance)
+            input, lidar_mask = dsutil.read_gt_image(base_dir=base_dir, gta_pass=gta_pass,
+                                                     img_id=img_id[i][0], data_type='real',
+                                                     min_distance=min_distance, max_distance=max_distance)
             input = torch.tensor(input).to(device=device)
             input = input.permute(0, 3, 1, 2)
             lidar_mask = torch.tensor(lidar_mask).permute(0, 3, 1, 2)
