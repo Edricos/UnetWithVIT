@@ -57,10 +57,38 @@ pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.co
 ```
 
 
-### others
+### Others
 Cython相关：
 ```
 sudo apt-get install python3.9-dev
+```
+项目虚拟环境`venv`:
+```
+source /home/edric/PycharmProjects/.venv/bin/activate
+```
+退出:
+```commandline
+deactivate
+```
+wsl2镜像模式时，pycharm开发设置:
+
+`Help->Find Actions->Registry-> wsl.proxy.connect.localhost: true(check the box)`
+回收wsl硬盘空间
+```
+# 彻底关闭 WSL2 虚拟机
+wsl --shutdown
+# 新开一个 Diskpart 窗口
+diskpart
+# 指定 WSL2 虚拟机磁盘镜像文件位置
+select vdisk file="C:\WSL-Distros\…\ext4.vhdx"
+# 只读 附加磁盘镜像文件
+attach vdisk readonly
+# 压缩 vhdx 磁盘镜像文件
+compact vdisk
+# 分离 vhdx 磁盘镜像文件
+detach vdisk
+# 退出
+exit
 ```
 
 

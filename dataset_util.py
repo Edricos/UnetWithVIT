@@ -5,10 +5,10 @@ import sys
 import cv2
 import numpy as np
 
-# crop_size = 120
-# crop_size_w = 320
-crop_size = 152
-crop_size_w = 160
+crop_size = 120
+crop_size_w = 320
+# crop_size = 152
+# crop_size_w = 160
 
 
 def read_gated_image(base_dir, gta_pass, img_id, data_type, num_bits=10, scale_images=False,
